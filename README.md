@@ -24,13 +24,13 @@ A collection of 20+ interactive JavaScript applications demonstrating core web d
 ## Live Applications
 Explore these interactive components directly on the live site:
 
-| Feature | Description | Try It |
-|---------|-------------|--------|
-| Theme Toggler | Switch between light/dark modes | [Demo](https://ark0b.github.io/Javascript-Projects/#) |
-| Digital Clock | Real-time clock display | [Demo](https://ark0b.github.io/Javascript-Projects/#) |
-| Color Mixer | RGB color generator | [Demo](https://ark0b.github.io/Javascript-Projects/#) |
-| Task Manager | Add/delete tasks | [Demo](https://ark0b.github.io/Javascript-Projects/#) |
-| Registration Form | Client-side validation | [Demo](https://ark0b.github.io/Javascript-Projects/#) |
+| Feature | Description | 
+|---------|-------------|
+| Theme Toggler | Switch between light/dark modes | 
+| Digital Clock | Real-time clock display |
+| Color Mixer | RGB color generator | 
+| Task Manager | Add/delete tasks | 
+| Registration Form | Client-side validation | 
 
 ## Core Technologies:
 
