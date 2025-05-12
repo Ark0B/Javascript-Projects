@@ -47,24 +47,51 @@
         /* Header Styles */
         header {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
             margin-bottom: 2.5rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .header-info {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: var(--text-light);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
             margin: 0;
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--secondary);
-            letter-spacing: -0.5px;
-            background: linear-gradient(90deg, #3498db, #2980b9);
+            background: linear-gradient(90deg, #3498db, #9b59b6, #e74c3c);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         h2 {
@@ -285,19 +312,12 @@
         }
 
         /* Light Bulb */
-        .bulb {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 1rem auto;
-            background-color: #ccc;
-            cursor: pointer;
+        .colourbutton {
             transition: all 0.3s ease;
         }
 
-        .bulb.on {
-            background-color: #ffeb3b;
-            box-shadow: 0 0 20px #ffeb3b, 0 0 40px #ffeb3b;
+        .colourbutton:hover {
+            transform: scale(1.05);
         }
 
         /* Calculator */
@@ -327,11 +347,16 @@
 </head>
 <body>
     <header>
-        <h1>JavaScript Project</h1>
-        <button class="theme-toggle" onclick="toggleTheme()">
-            <span id="theme-icon">🌓</span>
-            <span id="theme-text">Theme</span>
-        </button>
+        <div class="header-main">
+            <h1>JavaScript Project</h1>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <span id="theme-icon">🌓</span>
+                <span id="theme-text">Theme</span>
+            </button>
+        </div>
+        <div class="header-info">
+            Arkodyuti Bhattacharyya • SAU/CS/BTECH/2024/17
+        </div>
     </header>
 
     <main class="apps-grid">
@@ -435,8 +460,7 @@
         <!-- Light Bulb -->
         <div class="app-card">
             <h2>Light Bulb</h2>
-            <div class="bulb" id="lightBulb" onclick="toggleBulb()"></div>
-            <button onclick="toggleBulb()" style="display: block; margin: 0 auto;">Toggle Bulb</button>
+            <img id="lightbulb" src="media/lightbulb_on.png" alt="Light Bulb" style="height: 100px; cursor: pointer;" onclick="toggleLight()" class="colourbutton">
         </div>
 
         <!-- Session Storage -->
@@ -711,9 +735,13 @@
         }
         
         // Light Bulb
-        function toggleBulb() {
-            const bulb = document.getElementById('lightBulb');
-            bulb.classList.toggle('on');
+        function toggleLight() {
+            let lightbulb = document.getElementById("lightbulb");
+            if (lightbulb.src.includes("lightbulb_off.png")) {
+                lightbulb.src = "media/lightbulb_on.png";
+            } else {
+                lightbulb.src = "media/lightbulb_off.png";
+            }
         }
         
         // Session Storage
