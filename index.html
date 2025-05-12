@@ -263,6 +263,65 @@
         table tr:last-child td {
             border-bottom: none;
         }
+
+        /* Password Toggle Container */
+        .password-container {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .password-container input {
+            padding-right: 70px;
+            margin-bottom: 0;
+        }
+
+        .password-container button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            padding: 0 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Light Bulb */
+        .bulb {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 1rem auto;
+            background-color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bulb.on {
+            background-color: #ffeb3b;
+            box-shadow: 0 0 20px #ffeb3b, 0 0 40px #ffeb3b;
+        }
+
+        /* Calculator */
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .calculator input {
+            grid-column: span 4;
+            text-align: right;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .calculator button {
+            padding: 0.75rem;
+        }
+
+        .calculator .span-2 {
+            grid-column: span 2;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 </head>
@@ -276,6 +335,14 @@
     </header>
 
     <main class="apps-grid">
+        <!-- Welcome Alert -->
+        <div class="app-card">
+            <h2>Welcome Alert</h2>
+            <p>Click below to see a welcome message</p>
+            <button onclick="showWelcomeAlert()">Show Welcome</button>
+            <button onclick="location.reload()" class="secondary mt-2">Reload Page</button>
+        </div>
+
         <!-- Color Changer -->
         <div class="app-card">
             <h2>Color Changer</h2>
@@ -302,6 +369,15 @@
                 <button onclick="countDown()" class="secondary">Count Down from 5</button>
                 <p id="countResult" class="mt-2"></p>
             </div>
+        </div>
+
+        <!-- Number Operations -->
+        <div class="app-card">
+            <h2>Number Operations</h2>
+            <input type="number" id="num1" placeholder="First number">
+            <input type="number" id="num2" placeholder="Second number">
+            <button onclick="performOperations()">Calculate</button>
+            <div id="operationResults" class="mt-3"></div>
         </div>
 
         <!-- Multiplication Table -->
@@ -350,9 +426,49 @@
         <!-- Password Toggle -->
         <div class="app-card">
             <h2>Password Field</h2>
-            <div style="position: relative;">
+            <div class="password-container">
                 <input type="password" id="passwordInput" placeholder="Enter password">
-                <button onclick="togglePassword()" style="position: absolute; right: 0; top: 0; height: 100%; padding: 0 1rem;">Show</button>
+                <button onclick="togglePassword()">Show</button>
+            </div>
+        </div>
+
+        <!-- Light Bulb -->
+        <div class="app-card">
+            <h2>Light Bulb</h2>
+            <div class="bulb" id="lightBulb" onclick="toggleBulb()"></div>
+            <button onclick="toggleBulb()" style="display: block; margin: 0 auto;">Toggle Bulb</button>
+        </div>
+
+        <!-- Session Storage -->
+        <div class="app-card">
+            <h2>Session Storage</h2>
+            <input type="text" id="sessionName" placeholder="Enter your name">
+            <button onclick="storeSessionName()">Store Name</button>
+            <div id="sessionDisplay" class="mt-3" style="padding: 0.75rem; background-color: rgba(0,0,0,0.05); border-radius: 4px;"></div>
+        </div>
+
+        <!-- Simple Calculator -->
+        <div class="app-card">
+            <h2>Simple Calculator</h2>
+            <div class="calculator">
+                <input type="text" id="calcDisplay" readonly>
+                <button onclick="appendToDisplay('7')">7</button>
+                <button onclick="appendToDisplay('8')">8</button>
+                <button onclick="appendToDisplay('9')">9</button>
+                <button onclick="clearDisplay()" class="secondary">C</button>
+                <button onclick="appendToDisplay('4')">4</button>
+                <button onclick="appendToDisplay('5')">5</button>
+                <button onclick="appendToDisplay('6')">6</button>
+                <button onclick="calculateResult('+')">+</button>
+                <button onclick="appendToDisplay('1')">1</button>
+                <button onclick="appendToDisplay('2')">2</button>
+                <button onclick="appendToDisplay('3')">3</button>
+                <button onclick="calculateResult('-')">-</button>
+                <button onclick="appendToDisplay('0')">0</button>
+                <button onclick="appendToDisplay('.')">.</button>
+                <button onclick="calculateResult('*')">×</button>
+                <button onclick="calculateResult('/')">÷</button>
+                <button onclick="calculateResult('=')" class="span-2">=</button>
             </div>
         </div>
 
@@ -430,6 +546,11 @@
             document.getElementById('theme-text').textContent = 'Dark Mode';
         }
 
+        // Welcome Alert
+        function showWelcomeAlert() {
+            alert("Welcome to my JavaScript Project!");
+        }
+
         // Color Changer
         function changeButtonColor() {
             const button = document.getElementById('colorButton');
@@ -490,6 +611,36 @@
                 countResult.textContent += i + " ";
             }
             countResult.className = "text-muted";
+        }
+        
+        // Number Operations
+        function performOperations() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const resultsDiv = document.getElementById('operationResults');
+            
+            if (isNaN(num1) || isNaN(num2)) {
+                resultsDiv.innerHTML = '<span class="text-error">Please enter valid numbers</span>';
+                return;
+            }
+            
+            const sum = num1 + num2;
+            const difference = num1 - num2;
+            const product = num1 * num2;
+            const division = num2 !== 0 ? (num1 / num2).toFixed(2) : "Undefined";
+            const modulo = num2 !== 0 ? num1 % num2 : "Undefined";
+            const isGreater = num1 > num2;
+            const logicalCheck = num1 > 5 && num2 < 10;
+            
+            resultsDiv.innerHTML = `
+                <p>Sum: ${sum}</p>
+                <p>Difference: ${difference}</p>
+                <p>Product: ${product}</p>
+                <p>Division: ${division}</p>
+                <p>Modulo: ${modulo}</p>
+                <p>${num1} > ${num2}: ${isGreater}</p>
+                <p>a>5 && b<10: ${logicalCheck}</p>
+            `;
         }
         
         // Multiplication Table
@@ -556,6 +707,60 @@
             } else {
                 passwordInput.type = "password";
                 toggleButton.textContent = "Show";
+            }
+        }
+        
+        // Light Bulb
+        function toggleBulb() {
+            const bulb = document.getElementById('lightBulb');
+            bulb.classList.toggle('on');
+        }
+        
+        // Session Storage
+        function storeSessionName() {
+            const name = document.getElementById('sessionName').value.trim();
+            if (name) {
+                sessionStorage.setItem('userName', name);
+                displaySessionName();
+            }
+        }
+        
+        function displaySessionName() {
+            const name = sessionStorage.getItem('userName');
+            const display = document.getElementById('sessionDisplay');
+            if (name) {
+                display.textContent = `Stored Name: ${name}`;
+            } else {
+                display.textContent = "No name stored in session";
+            }
+        }
+        displaySessionName();
+        
+        // Simple Calculator
+        let currentInput = '';
+        
+        function appendToDisplay(value) {
+            currentInput += value;
+            document.getElementById('calcDisplay').value = currentInput;
+        }
+        
+        function clearDisplay() {
+            currentInput = '';
+            document.getElementById('calcDisplay').value = '';
+        }
+        
+        function calculateResult(operator) {
+            if (operator === '=') {
+                try {
+                    currentInput = eval(currentInput).toString();
+                    document.getElementById('calcDisplay').value = currentInput;
+                } catch (e) {
+                    document.getElementById('calcDisplay').value = 'Error';
+                    currentInput = '';
+                }
+            } else {
+                currentInput += operator;
+                document.getElementById('calcDisplay').value = currentInput;
             }
         }
         
