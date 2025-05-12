@@ -32,3 +32,47 @@ Explore these interactive components directly on the live site:
 | Task Manager | Add/delete tasks | [Demo](https://ark0b.github.io/Javascript-Projects/#) |
 | Registration Form | Client-side validation | [Demo](https://ark0b.github.io/Javascript-Projects/#) |
 
+Core Technologies:
+
+    Frontend: HTML5, CSS3, JavaScript (ES6+)
+
+    Design: Responsive layout, CSS transitions
+
+    Storage: localStorage, sessionStorage
+
+    Hosting: GitHub Pages
+
+How to Explore
+
+    Visit the live site: https://ark0b.github.io/Javascript-Projects/
+
+    Interact with any component
+
+    View source code on GitHub
+
+Development Insights
+
+Through this project, I've:
+✔ Implemented 25+ interactive JS applications
+✔ Mastered DOM manipulation techniques
+✔ Developed responsive UI components
+✔ Created persistent data solutions
+✔ Solved complex event handling scenarios
+
+## Acknowledgments
+
+    Course instructors for foundational knowledge
+
+    MDN Web Docs for JavaScript references
+
+    Stack Overflow community for troubleshooting
+
+
+## License
+
+This project is open-source and available under the MIT License.
+
+Developed with ♥ by Arkodyuti Bhattacharyya
+South Asian University, 2024
+
+
