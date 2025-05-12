@@ -50,7 +50,7 @@ Interact with any component
 
 View source code on GitHub
 
-Development Insights
+## Development Insights
 
 Through this project, I've:
 ✔ Implemented 15+ interactive JS applications
@@ -77,6 +77,7 @@ Stack Overflow community for troubleshooting
 This project is open-source and available under the MIT License.
 
 Developed with ♥ by Arkodyuti Bhattacharyya
+
 South Asian University, 2024
 
 
