@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Project</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #2980b9;
+            --text: #333;
+            --text-light: #7f8c8d;
+            --bg: #f8f9fa;
+            --card-bg: #fff;
+            --border: #e0e0e0;
+            --success: #27ae60;
+            --error: #e74c3c;
+            --heading: #2c3e50;
+        }
+
+        body.dark {
+            --primary: #34495e;
+            --secondary: #2980b9;
+            --accent: #3498db;
+            --text: #ecf0f1;
+            --text-light: #bdc3c7;
+            --bg: #1a1a1a;
+            --card-bg: #252525;
+            --border: #3d3d3d;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --heading: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--heading);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--secondary);
+            border-radius: 3px;
+        }
+
+        /* Grid Layout */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        /* App Cards */
+        .app-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-color: var(--secondary);
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--secondary);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text);
+            transition: all 0.3s ease;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(52, 152, 219, 0.1);
+            border-color: var(--secondary);
+        }
+
+        /* Form Elements */
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0 1rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background-color: var(--card-bg);
+            color: var(--text);
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.75rem 1.25rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            background-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        button.secondary {
+            background-color: transparent;
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        button.secondary:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        /* Utility Classes */
+        .text-muted {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .text-success {
+            color: var(--success);
+        }
+
+        .text-error {
+            color: var(--error);
+        }
+
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 1rem; }
+        .mt-4 { margin-top: 1.5rem; }
+
+        /* Specific App Styling */
+        .clock-display {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.75rem;
+            letter-spacing: 1px;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .color-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>JavaScript Project</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span id="theme-icon">🌓</span>
+            <span id="theme-text">Theme</span>
+        </button>
+    </header>
+
+    <main class="apps-grid">
+        <!-- Color Changer -->
+        <div class="app-card">
+            <h2>Color Changer</h2>
+            <button id="colorButton" onclick="changeButtonColor()">Change Color</button>
+        </div>
+
+        <!-- Grade Calculator -->
+        <div class="app-card">
+            <h2>Grade Calculator</h2>
+            <input type="number" id="gradeInput" placeholder="Enter score (0-100)" min="0" max="100">
+            <button onclick="calculateGrade()">Calculate</button>
+            <p id="gradeResult" class="mt-2"></p>
+        </div>
+
+        <!-- Number Tools -->
+        <div class="app-card">
+            <h2>Number Tools</h2>
+            <input type="number" id="numberInput" placeholder="Enter a number">
+            <button onclick="checkEvenOdd()">Check Even/Odd</button>
+            <p id="evenOddResult" class="mt-2"></p>
+            
+            <div class="mt-3">
+                <button onclick="countUp()">Count to 10</button>
+                <button onclick="countDown()" class="secondary">Count Down from 5</button>
+                <p id="countResult" class="mt-2"></p>
+            </div>
+        </div>
+
+        <!-- Multiplication Table -->
+        <div class="app-card">
+            <h2>Multiplication Table</h2>
+            <input type="number" id="multiplierInput" placeholder="Enter a number" min="1">
+            <button onclick="generateTable()">Generate</button>
+            <div id="multiplicationTable" class="mt-3"></div>
+        </div>
+
+        <!-- Color Mixer -->
+        <div class="app-card">
+            <h2>Color Mixer</h2>
+            <label for="redSlider">Red:</label>
+            <input type="range" id="redSlider" min="0" max="255" value="128" oninput="updateColor()">
+            <span id="redValue">128</span>
+            
+            <label for="greenSlider" class="mt-2">Green:</label>
+            <input type="range" id="greenSlider" min="0" max="255" value="128" oninput="updateColor()">
+            <span id="greenValue">128</span>
+            
+            <label for="blueSlider" class="mt-2">Blue:</label>
+            <input type="range" id="blueSlider" min="0" max="255" value="128" oninput="updateColor()">
+            <span id="blueValue">128</span>
+            
+            <div class="color-preview" id="colorDisplay"></div>
+        </div>
+
+        <!-- Digital Clock -->
+        <div class="app-card">
+            <h2>Digital Clock</h2>
+            <div class="clock-display" id="digitalClock"></div>
+        </div>
+
+        <!-- Counter -->
+        <div class="app-card">
+            <h2>Interactive Counter</h2>
+            <div id="counterValue" class="clock-display">0</div>
+            <div class="mt-3">
+                <button onclick="incrementCounter()">+</button>
+                <button onclick="decrementCounter()" class="secondary">-</button>
+                <button onclick="resetCounter()" class="secondary">Reset</button>
+            </div>
+        </div>
+
+        <!-- Password Toggle -->
+        <div class="app-card">
+            <h2>Password Field</h2>
+            <div style="position: relative;">
+                <input type="password" id="passwordInput" placeholder="Enter password">
+                <button onclick="togglePassword()" style="position: absolute; right: 0; top: 0; height: 100%; padding: 0 1rem;">Show</button>
+            </div>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="app-card">
+            <h2>Registration Form</h2>
+            <form id="registerForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name">
+                <span id="nameError" class="text-error mt-2" style="display: none;">Name is required</span>
+                
+                <label for="email" class="mt-2">Email:</label>
+                <input type="email" id="email">
+                <span id="emailError" class="text-error mt-2" style="display: none;">Enter a valid email</span>
+                
+                <label for="regPassword" class="mt-2">Password:</label>
+                <input type="password" id="regPassword">
+                <span id="passwordError" class="text-error mt-2" style="display: none;">Must be 6+ characters</span>
+                
+                <button type="submit" class="mt-3">Register</button>
+            </form>
+            <div id="successMessage" class="text-success mt-3" style="display: none;">Form submitted successfully!</div>
+        </div>
+
+        <!-- Task Manager -->
+        <div class="app-card">
+            <h2>Task Manager</h2>
+            <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="taskInput" placeholder="New task" style="flex: 1;">
+                <button onclick="addTask()">Add</button>
+            </div>
+            <ul id="taskList" style="padding: 0; list-style: none; margin-top: 1rem;"></ul>
+        </div>
+
+        <!-- Notes App -->
+        <div class="app-card">
+            <h2>Notes</h2>
+            <textarea id="noteInput" placeholder="Write your note here..." rows="4"></textarea>
+            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button onclick="saveNote()">Save</button>
+                <button onclick="clearNote()" class="secondary">Clear</button>
+            </div>
+            <div id="displayNote" class="mt-3" style="padding: 0.75rem; background-color: rgba(0,0,0,0.05); border-radius: 4px;"></div>
+        </div>
+    </main>
+
+    <footer>
+        Made by Arkodyuti Bhattacharyya • SAU/CS/BTECH/2024/17
+    </footer>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+            
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+            if (document.body.classList.contains('dark')) {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Light Mode';
+            } else {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Dark Mode';
+            }
+        }
+        
+        // Load theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark');
+            document.getElementById('theme-icon').textContent = '🌙';
+            document.getElementById('theme-text').textContent = 'Light Mode';
+        } else {
+            document.getElementById('theme-icon').textContent = '☀️';
+            document.getElementById('theme-text').textContent = 'Dark Mode';
+        }
+
+        // Color Changer
+        function changeButtonColor() {
+            const button = document.getElementById('colorButton');
+            const colors = ['#3498db', '#2ecc71', '#e74c3c', '#9b59b6', '#f39c12'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            button.style.backgroundColor = randomColor;
+        }
+        
+        // Grade Calculator
+        function calculateGrade() {
+            const score = parseInt(document.getElementById('gradeInput').value);
+            let result = document.getElementById('gradeResult');
+            
+            if (isNaN(score)) {
+                result.textContent = "Please enter a valid number";
+                result.className = "text-error";
+                return;
+            }
+            
+            if (score >= 90) result.textContent = "Grade: A";
+            else if (score >= 80) result.textContent = "Grade: B";
+            else if (score >= 70) result.textContent = "Grade: C";
+            else if (score >= 60) result.textContent = "Grade: D";
+            else result.textContent = "Grade: F (Fail)";
+            
+            result.className = "text-muted";
+        }
+        
+        // Even/Odd Checker
+        function checkEvenOdd() {
+            const num = parseInt(document.getElementById('numberInput').value);
+            const result = document.getElementById('evenOddResult');
+            
+            if (isNaN(num)) {
+                result.textContent = "Please enter a valid number";
+                result.className = "text-error";
+                return;
+            }
+            
+            result.textContent = num % 2 === 0 ? `${num} is Even` : `${num} is Odd`;
+            result.className = "text-muted";
+        }
+        
+        // Counters
+        function countUp() {
+            let countResult = document.getElementById('countResult');
+            countResult.textContent = "";
+            for (let i = 1; i <= 10; i++) {
+                countResult.textContent += i + " ";
+            }
+            countResult.className = "text-muted";
+        }
+        
+        function countDown() {
+            let countResult = document.getElementById('countResult');
+            countResult.textContent = "";
+            for (let i = 5; i >= 1; i--) {
+                countResult.textContent += i + " ";
+            }
+            countResult.className = "text-muted";
+        }
+        
+        // Multiplication Table
+        function generateTable() {
+            const num = parseInt(document.getElementById('multiplierInput').value);
+            const tableDiv = document.getElementById('multiplicationTable');
+            
+            if (isNaN(num) || num < 1) {
+                tableDiv.innerHTML = '<span class="text-error">Please enter a valid positive number</span>';
+                return;
+            }
+            
+            let tableHTML = "<table>";
+            for (let i = 1; i <= 10; i++) {
+                tableHTML += `<tr><td>${num} × ${i}</td><td>=</td><td>${num * i}</td></tr>`;
+            }
+            tableHTML += "</table>";
+            tableDiv.innerHTML = tableHTML;
+        }
+        
+        // Color Mixer
+        function updateColor() {
+            const red = document.getElementById('redSlider').value;
+            const green = document.getElementById('greenSlider').value;
+            const blue = document.getElementById('blueSlider').value;
+            
+            document.getElementById('redValue').textContent = red;
+            document.getElementById('greenValue').textContent = green;
+            document.getElementById('blueValue').textContent = blue;
+            
+            document.getElementById('colorDisplay').style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+        }
+        updateColor();
+        
+        // Digital Clock
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            document.getElementById('digitalClock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+        
+        // Interactive Counter
+        let counter = 0;
+        function updateCounterDisplay() {
+            document.getElementById('counterValue').textContent = counter;
+        }
+        function incrementCounter() { counter++; updateCounterDisplay(); }
+        function decrementCounter() { counter--; updateCounterDisplay(); }
+        function resetCounter() { counter = 0; updateCounterDisplay(); }
+        
+        // Password Toggle
+        function togglePassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const toggleButton = passwordInput.nextElementSibling;
+            
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                toggleButton.textContent = "Show";
+            }
+        }
+        
+        // Registration Form
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let valid = true;
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("regPassword").value;
+
+            // Name validation
+            if (name === "") {
+                document.getElementById("nameError").style.display = "block";
+                document.getElementById("name").style.borderColor = "var(--error)";
+                valid = false;
+            } else {
+                document.getElementById("nameError").style.display = "none";
+                document.getElementById("name").style.borderColor = "";
+            }
+
+            // Email validation
+            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!email.match(emailPattern)) {
+                document.getElementById("emailError").style.display = "block";
+                document.getElementById("email").style.borderColor = "var(--error)";
+                valid = false;
+            } else {
+                document.getElementById("emailError").style.display = "none";
+                document.getElementById("email").style.borderColor = "";
+            }
+
+            // Password validation
+            if (password.length < 6) {
+                document.getElementById("passwordError").style.display = "block";
+                document.getElementById("regPassword").style.borderColor = "var(--error)";
+                valid = false;
+            } else {
+                document.getElementById("passwordError").style.display = "none";
+                document.getElementById("regPassword").style.borderColor = "";
+            }
+
+            if (valid) {
+                document.getElementById("successMessage").style.display = "block";
+                setTimeout(() => {
+                    document.getElementById("registerForm").reset();
+                    document.getElementById("successMessage").style.display = "none";
+                }, 2000);
+            }
+        });
+        
+        // Task Manager
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+            
+            if (taskText === "") return;
+            
+            const taskList = document.getElementById('taskList');
+            const li = document.createElement('li');
+            li.className = "task-item";
+            li.innerHTML = `
+                <span>${taskText}</span>
+                <button onclick="removeTask(this)" class="secondary" style="padding: 0.25rem 0.5rem;font-size:0.8rem;">Delete</button>
+            `;
+            
+            taskList.appendChild(li);
+            taskInput.value = "";
+            saveTasks();
+        }
+        
+        function removeTask(button) {
+            button.parentElement.remove();
+            saveTasks();
+        }
+        
+        function saveTasks() {
+            const tasks = [];
+            document.querySelectorAll('#taskList li span').forEach(task => {
+                tasks.push(task.textContent);
+            });
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+        
+        function loadTasks() {
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            const taskList = document.getElementById('taskList');
+            tasks.forEach(taskText => {
+                const li = document.createElement('li');
+                li.className = "task-item";
+                li.innerHTML = `
+                    <span>${taskText}</span>
+                    <button onclick="removeTask(this)" class="secondary" style="padding: 0.25rem 0.5rem;font-size:0.8rem;">Delete</button>
+                `;
+                taskList.appendChild(li);
+            });
+        }
+        loadTasks();
+        
+        // Notes App
+        function saveNote() {
+            const note = document.getElementById("noteInput").value;
+            localStorage.setItem("savedNote", note);
+            displayNote();
+        }
+
+        function clearNote() {
+            localStorage.removeItem("savedNote");
+            document.getElementById("noteInput").value = "";
+            displayNote();
+        }
+
+        function displayNote() {
+            const saved = localStorage.getItem("savedNote");
+            const display = document.getElementById("displayNote");
+            if (saved && saved.trim() !== "") {
+                display.innerHTML = `<strong>Saved Note:</strong><p style="margin-top:0.5rem;">${saved}</p>`;
+                document.getElementById("noteInput").value = saved;
+            } else {
+                display.innerHTML = '<span class="text-muted">No saved note</span>';
+            }
+        }
+        displayNote();
+    </script>
+</body>
+</html>
